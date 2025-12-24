@@ -1,43 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "./generated/prisma"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
 }
 
 // Add your models here 
 model Register {
-    id                 Int      @id @default(autoincrement())
-    name               String
-    phone              String
-    email              String?  @default("")
-    home               String
-    tracking_code      String   @unique
-    created_at         DateTime @default(now())
-    edited_at          DateTime @updatedAt
-    card               Int?
-    cardwithbox        Int?
-    shirts             String?
-    shipment_status    String?
-    payment_method     String?
-    payment_amount     String?
-    payment_proof      String?
-    payment_status     String?
-    receipt            String? // yes or no
-    national_id        String?
-    name_on_receipt    String?
-    address_on_receipt String?
-    item_tracking_number    String?   // เลขพัสดุสำหรับของที่ระลึก
-    receipt_tracking_number String?   // เลขพัสดุสำหรับใบเสร็จ
-    error_details           String?   // รายละเอียดเพิ่มเติมกรณี error
-    alumni              String? // true if alumni
-    alumni_gen         String?  // รุ่นศิษย์เก่า
+  id                      Int      @id @default(autoincrement())
+  name                    String
+  phone                   String
+  email                   String?  @default("")
+  home                    String
+  tracking_code           String   @unique
+  created_at              DateTime @default(now())
+  edited_at               DateTime @updatedAt
+  card                    Int?
+  cardwithbox             Int?
+  shirts                  String?
+  shipment_status         String?
+  payment_method          String?
+  payment_amount          String?
+  payment_proof           String?
+  payment_status          String?
+  receipt                 String? // yes or no
+  national_id             String?
+  name_on_receipt         String?
+  address_on_receipt      String?
+  item_tracking_number    String? // เลขพัสดุสำหรับของที่ระลึก
+  receipt_tracking_number String? // เลขพัสดุสำหรับใบเสร็จ
+  error_details           String? // รายละเอียดเพิ่มเติมกรณี error
+  alumni                  String? // true if alumni
+  alumni_gen              String? // รุ่นศิษย์เก่า
 }
 
 model DonationStatus {
-    id        Int      @id @default(autoincrement())
-    isOpen    Boolean  @default(true) // true for open, false for closed
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  isOpen    Boolean  @default(true) // true for open, false for closed
+  updatedAt DateTime @updatedAt
 }
