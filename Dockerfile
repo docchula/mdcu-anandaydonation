@@ -50,6 +50,7 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/uploads ./uploads
+COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./
 
 # Copies prisma files for linting
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
