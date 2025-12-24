@@ -213,7 +213,7 @@ interface AdminStatsTableProps {
   };
 }
 
-export default function AdminStatsTable({ statistics }: AdminStatsTableProps) {
+export default function AdminStatsTable({ }: AdminStatsTableProps) {
   const [data, setData] = useState<Register[]>([]);
   const [loading, setLoading] = useState(true);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

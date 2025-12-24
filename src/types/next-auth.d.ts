@@ -1,4 +1,6 @@
-import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
+/* eslint-disable no-unused-vars */
+
+import type { DefaultSession, DefaultUser } from "next-auth";
 
 declare module "next-auth" {
     interface Session {

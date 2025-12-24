@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext"; // Adjust the path as necessary
 import Link from "next/link";
 interface SearchBarProps {
+  // eslint-disable-next-line no-unused-vars
   onSearch: (searchTrackingCode: string) => Promise<void>;
   loading: boolean;
-}
+} 
 
 export default function SearchBar({ onSearch, loading }: SearchBarProps) {
   const [searchTrackingCode, setSearchTrackingCode] = useState("");

@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import type { Province, District, SubDistrict } from "@/types/address";
+import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
 
 interface RegisterFormProps {
@@ -63,7 +64,7 @@ const RegisterForm = ({
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [paymentProof, setPaymentProof] = useState<string>("");
+  const [, setPaymentProof] = useState<string>("");
   const [payment_amount, setpayment_amount] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<string>(""); // New state for payment method
   const [wantsShirt, setWantsShirt] = useState<boolean>(true);
@@ -73,39 +74,7 @@ const RegisterForm = ({
   const [nameOnReceipt, setNameOnReceipt] = useState<string>("");
   const { language } = useLanguage();
 
-  // Add function to validate card selection based on payment amount
-  const validateCardSelection = (amount: string, selectedCard: string) => {
-    const numAmount = parseInt(amount) || 0;
-    const numCard = parseInt(selectedCard) || 0;
-
-    if (numAmount < 150) {
-      // Allow both "0" and empty string when amount is less than 150
-      return selectedCard === "" ? "" : "0";
-    } else if (numAmount >= 150 && numAmount < 300) {
-      // Allow only card 0 and 1 when amount is between 150-299
-      return selectedCard === "0" || selectedCard === "1" ? selectedCard : "0";
-    } else if (numAmount >= 300 && numAmount < 450) {
-      // Allow cards 0, 1, and 2 when amount is between 300-449
-      return selectedCard === "0" ||
-        selectedCard === "1" ||
-        selectedCard === "2"
-        ? selectedCard
-        : "0";
-    } else if (numAmount >= 450) {
-      // Allow all cards (0, 1, 2, 3) when amount is 450 or more
-      return selectedCard;
-    }
-    return selectedCard;
-  };
-
   // Update card when payment amount changes
-  const handlePaymentAmountChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newAmount = e.target.value;
-    setpayment_amount(newAmount);
-    setCard(validateCardSelection(newAmount, card));
-  };
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -567,29 +536,38 @@ const RegisterForm = ({
                   hoveredIndex === index ? "scale-110" : "scale-90"
                 }`}
               >
-                <img
+                <Image
                   src={image.src}
                   alt={image.alt}
+                  width={300}
+                  height={200}
                   className="w-full h-auto object-cover" // Make the image fill the width of the container
+                  unoptimized
                 />
                 <div className="text-center">แบบที่ {index + 1}</div>
               </div>
             ))}
           </div>
           <div className="flex justify-center w-full max-w-[700px] mx-auto">
-            <img
+            <Image
               src="/images/2025/postcard.jpg"
               alt="postcard"
+              width={800}
+              height={400}
               className="rounded-xl w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <span className="text-xl text-center">
             ตัวอย่างเข็มที่ระลึกและกล่อง
           </span>
-          <img
+          <Image
             src="/images/2025/pinbox.jpg"
             alt="pinbox"
+            width={800}
+            height={400}
             className="rounded-xl w-full h-auto object-contain"
+            unoptimized
           />
           <span className="text-xl">เข็มที่ระลึก</span>
           <span className="text-xl">
@@ -619,10 +597,13 @@ const RegisterForm = ({
           ></input>
           <span className="text-xl text-center">ตัวอย่างเสื้อที่ระลึก</span>
           <div className="flex justify-center w-full max-w-[700px] mx-auto">
-            <img
+            <Image
               src="/images/2025/shirts.jpg"
               alt="shirts"
+              width={800}
+              height={400}
               className=" rounded-xl shadow-lg w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <span className="text-xl">
@@ -736,10 +717,13 @@ const RegisterForm = ({
               <option value="QR code">QR code</option>
               <option value="Bank number">Bank number</option>
             </select>
-            <img
+            <Image
               src="/images/2025/qr2568.jpg"
               alt="qr"
+              width={400}
+              height={400}
               className="rounded-xl w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <div className="form-control w-full">
@@ -756,10 +740,13 @@ const RegisterForm = ({
             />
             {imagePreview && (
               <div className="mt-2">
-                <img
+                <Image
                   src={imagePreview}
                   alt="Payment proof preview"
+                  width={800}
+                  height={600}
                   className="w-full rounded-lg shadow-lg"
+                  unoptimized
                 />
               </div>
             )}
@@ -1099,20 +1086,26 @@ const RegisterForm = ({
                   hoveredIndex === index ? "scale-110" : "scale-90"
                 }`}
               >
-                <img
+                <Image
                   src={image.src}
                   alt={image.alt}
+                  width={300}
+                  height={200}
                   className="w-full h-auto object-cover" // Make the image fill the width of the container
+                  unoptimized
                 />
                 <div className="text-center">Design {index + 1}</div>
               </div>
             ))}
           </div>
           <div className="flex justify-center w-full max-w-[700px] mx-auto">
-            <img
+            <Image
               src="/images/2025/postcard.jpg"
               alt="postcard"
+              width={800}
+              height={400}
               className="rounded-xl w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <span className="text-xl text-center">
@@ -1120,10 +1113,13 @@ const RegisterForm = ({
           </span>
 
           <div className="flex justify-center w-full">
-            <img
+            <Image
               src="/images/2025/pinbox.jpg"
               alt="pinbox"
+              width={800}
+              height={400}
               className="rounded-xl w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <span className="text-xl">
@@ -1153,10 +1149,13 @@ const RegisterForm = ({
           <span className="text-xl text-center">T-Shirts example</span>
 
           <div className="flex justify-center w-full max-w-[700px] mx-auto">
-            <img
+            <Image
               src="/images/2025/shirts.jpg"
               alt="shirts"
+              width={800}
+              height={400}
               className=" rounded-xl shadow-lg w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <span className="text-xl">
@@ -1270,10 +1269,13 @@ const RegisterForm = ({
               <option value="QR code">QR code</option>
               <option value="Bank number">Bank number</option>
             </select>
-            <img
+            <Image
               src="/images/2025/qr2568.jpg"
               alt="qr"
+              width={400}
+              height={400}
               className="rounded-xl w-full h-auto object-contain"
+              unoptimized
             />
           </div>
           <div className="form-control w-full">
@@ -1290,10 +1292,13 @@ const RegisterForm = ({
             />
             {imagePreview && (
               <div className="mt-2">
-                <img
+                <Image
                   src={imagePreview}
                   alt="Payment proof preview"
+                  width={800}
+                  height={600}
                   className="w-full rounded-lg shadow-lg"
+                  unoptimized
                 />
               </div>
             )}
@@ -1317,7 +1322,7 @@ const RegisterForm = ({
                 onChange={() => setWantsReceipt(!wantsReceipt)}
                 className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
               />
-              <span className="ml-2 text-lg">I don't want a receipt</span>
+              <span className="ml-2 text-lg">I don&apos;t want a receipt</span>
             </label>
           </div>
 

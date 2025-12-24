@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Thai } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 import { Providers } from "./providers";
 import { LanguageProvider } from "./context/LanguageContext";
 
-const Noto = Noto_Sans_Thai({ subsets: ["latin"] });
+const Noto = localFont({
+  src: "../../public/fonts/NotoSansThai-VariableFont_wdth,wght.ttf",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "AnandayDonation",

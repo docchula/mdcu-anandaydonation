@@ -4,7 +4,6 @@ import { useState } from "react";
 import SearchBar from "../components/Tracksearch";
 import { RegistrationGrid } from "../components/RegistrationGrid";
 import { useLanguage } from "../context/LanguageContext";
-import Link from "next/link";
 import Footer from "../components/Footer";
 import type { Register } from "@/types/register";
 

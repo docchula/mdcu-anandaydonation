@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 interface LanguageContextType {
   language: "th" | "en";
   translations: Record<string, Record<string, string>>;
+   // eslint-disable-next-line no-unused-vars
   toggleLanguage: (newLanguage: "th" | "en") => void;
 }
 

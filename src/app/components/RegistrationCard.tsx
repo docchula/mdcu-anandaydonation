@@ -1,5 +1,6 @@
 "use client";
 import { useLanguage } from "../context/LanguageContext";
+import Image from "next/image";
 
 interface RegistrationCardProps {
   registration: {
@@ -83,11 +84,6 @@ export default function RegistrationCard({
     : 0;
   const cardwithboxTotal = cardwithboxCount * 250;
 
-  const totalAmount =
-    parseFloat(registration.payment_amount || "0") +
-    shirtTotal +
-    cardTotal +
-    cardwithboxTotal;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -318,10 +314,13 @@ export default function RegistrationCard({
                 {language === "en" ? "Payment Proof" : "หลักฐานการชำระเงิน"}
               </h3>
               <figure className="mt-2">
-                <img
-                  src={registration.payment_proof}
+                <Image
+                  src={registration.payment_proof!}
                   alt="Payment Proof"
+                  width={800}
+                  height={600}
                   className="rounded-lg max-w-full"
+                  unoptimized
                 />
               </figure>
             </div>

@@ -3,16 +3,12 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import AlumniDonation from "./components/AlumniDonation";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import React from "react";
 import { useLanguage } from "./context/LanguageContext";
 
 export default function Home() {
   const { language } = useLanguage();
-  const [clientLanguage, setClientLanguage] = useState(language);
-
-  useEffect(() => {
-    setClientLanguage(language);
-  }, [language]);
 
   return (
     <>
@@ -20,10 +16,13 @@ export default function Home() {
 
       <div className="text-slate-900 flex flex-col items-center gap-4 p-4 bg-stone-100">
         <div className="w-full max-w-[1000px] mx-auto">
-          <img
+          <Image
             src="/images/Logo2.png"
             alt="banner_1"
+            width={1000}
+            height={300}
             className="w-full h-auto object-cover"
+            unoptimized
           />
         </div>
         <div className="divider" />
@@ -40,18 +39,24 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full max-w-[1000px] mx-auto">
-          <img
+          <Image
             src="/images/2025/banner2.jpg"
             alt="banner_2"
+            width={1000}
+            height={400}
             className="w-full h-auto object-cover"
+            unoptimized
           />
         </div>
         <div className="divider" />
         <div className="w-full max-w-[1000px] mx-auto">
-          <img
+          <Image
             src="/images/2025/qr2568.jpg"
             alt="bookbank"
+            width={400}
+            height={400}
             className="w-full h-auto object-contain"
+            unoptimized
           />
         </div>
         <div className="my-1" />
@@ -94,7 +99,7 @@ export default function Home() {
                     and displays them on this website. If you have
                     <span className="font-bold">
                       {" "}
-                      previously registered your donation information {" "}
+                      previously registered your donation information{" "}
                     </span>
                     with us and would like your donations to be included and
                     shown on the website, please contact our team via Facebook

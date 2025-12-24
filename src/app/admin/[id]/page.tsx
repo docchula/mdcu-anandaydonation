@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface Register {
   id: number;
@@ -33,7 +34,7 @@ interface Register {
 }
 
 export default function AdminApprovePaymentPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const { id } = useParams();
   const [register, setRegister] = useState<Register | null>(null);
@@ -60,22 +61,23 @@ export default function AdminApprovePaymentPage() {
 
   useEffect(() => {
     if (status !== "authenticated" || !id) return;
+
+    const fetchRegisterData = async () => {
+      try {
+        const res = await fetch(`/api/register/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch registration data");
+        const data = await res.json();
+        setRegister(data);
+        setShipmentStatus(data.shipment_status || "");
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchRegisterData();
   }, [status, id]);
-
-  const fetchRegisterData = async () => {
-    try {
-      const res = await fetch(`/api/register/${id}`);
-      if (!res.ok) throw new Error("Failed to fetch registration data");
-      const data = await res.json();
-      setRegister(data);
-      setShipmentStatus(data.shipment_status || "");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const updateRegister = async (updateData: Partial<Register>) => {
     try {
@@ -219,29 +221,29 @@ export default function AdminApprovePaymentPage() {
             </p>
           )}
           {/* Editable alumni section */}
-            <div className="flex flex-col space-y-2 mb-4 mt-4">
-              <div className="flex items-center space-x-4">
+          <div className="flex flex-col space-y-2 mb-4 mt-4">
+            <div className="flex items-center space-x-4">
               <label className="flex items-center cursor-pointer">
                 <input
-                type="checkbox"
-                checked={isAlumni}
-                onChange={() => setIsAlumni(!isAlumni)}
-                className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
+                  type="checkbox"
+                  checked={isAlumni}
+                  onChange={() => setIsAlumni(!isAlumni)}
+                  className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
                 />
                 <span className="ml-2 text-lg">เป็นศิษย์เก่าแพทย์จุฬาฯ</span>
               </label>
               {isAlumni && (
                 <select
-                className="select select-bordered ml-4"
-                value={alumniGen}
-                onChange={(e) => setAlumniGen(e.target.value)}
+                  className="select select-bordered ml-4"
+                  value={alumniGen}
+                  onChange={(e) => setAlumniGen(e.target.value)}
                 >
-                <option value="">เลือกรุ่นศิษย์เก่า</option>
-                {Array.from({ length: 75 }, (_, i) => (
-                  <option key={i + 1} value={String(i + 1)}>
-                  รุ่น {i + 1}
-                  </option>
-                ))}
+                  <option value="">เลือกรุ่นศิษย์เก่า</option>
+                  {Array.from({ length: 75 }, (_, i) => (
+                    <option key={i + 1} value={String(i + 1)}>
+                      รุ่น {i + 1}
+                    </option>
+                  ))}
                 </select>
               )}
               <button
@@ -252,16 +254,14 @@ export default function AdminApprovePaymentPage() {
               >
                 บันทึกข้อมูลศิษย์เก่า
               </button>
-              </div>
-              {isAlumni && (
+            </div>
+            {isAlumni && (
               <p className="text-sm text-gray-600">
                 ระบบจะแสดงยอดบริจาคบนหน้าแรกของเว็บไซต์หลังจากใบเสร็จได้รับการอนุมัติแล้ว
               </p>
-              )}
-            </div>
+            )}
+          </div>
         </div>
-
-        
 
         <h2 className="text-xl font-bold mt-6">ข้อมูลคำสั่งซื้อ</h2>
         <div className="bg-white shadow-lg rounded-lg p-6">
@@ -283,10 +283,13 @@ export default function AdminApprovePaymentPage() {
           {register.payment_proof && (
             <div>
               <figure className="mb-4">
-                <img
+                <Image
                   src={`${register.payment_proof}`}
                   alt="หลักฐานการชำระเงิน"
+                  width={400}
+                  height={300}
                   className="rounded-lg max-w-sm"
+                  unoptimized
                 />
               </figure>
             </div>
@@ -350,20 +353,22 @@ export default function AdminApprovePaymentPage() {
                     />
                     <span>
                       {status.label}
-                      {status.value === "2" && register?.item_tracking_number && (
-                      <span className="badge badge-outline badge-info ml-2">
-                        เลขพัสดุ: {register.item_tracking_number}
-                      </span>
-                      )}
-                      {status.value === "4" && register?.receipt_tracking_number && (
-                      <span className="badge badge-outline badge-info ml-2">
-                        เลขพัสดุใบเสร็จ: {register.receipt_tracking_number}
-                      </span>
-                      )}
+                      {status.value === "2" &&
+                        register?.item_tracking_number && (
+                          <span className="badge badge-outline badge-info ml-2">
+                            เลขพัสดุ: {register.item_tracking_number}
+                          </span>
+                        )}
+                      {status.value === "4" &&
+                        register?.receipt_tracking_number && (
+                          <span className="badge badge-outline badge-info ml-2">
+                            เลขพัสดุใบเสร็จ: {register.receipt_tracking_number}
+                          </span>
+                        )}
                       {status.value === "99" && register?.error_details && (
-                      <span className="badge badge-outline badge-info ml-2">
-                        รายละเอียด: {register.error_details}
-                      </span>
+                        <span className="badge badge-outline badge-info ml-2">
+                          รายละเอียด: {register.error_details}
+                        </span>
                       )}
                     </span>
                   </label>

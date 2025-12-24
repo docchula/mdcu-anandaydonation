@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Image from "next/image";
 import RegisterForm from "../components/RegisterForm";
 import type { Province, District, SubDistrict } from "@/types/address";
 import { useLanguage } from "../context/LanguageContext";
@@ -63,10 +64,13 @@ const RegisterPage = () => {
       <Navbar />
       <div className=" bg-stone-100 text-slate-950">
         <div className="flex justify-center py-8">
-          <img
+          <Image
             src="/images/Logo2.png"
             alt="logo"
+            width={600}
+            height={200}
             className="w-1/2 h-auto object-cover"
+            unoptimized
           />
         </div>
         <div

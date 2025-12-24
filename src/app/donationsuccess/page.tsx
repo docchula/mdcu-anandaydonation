@@ -23,18 +23,7 @@ function DonationSuccessContent() {
   // Parse and calculate shirt details
   let totalShirtCount = 0;
   let shirtTotal = 0;
-  let shirtDetails = "";
   if (shirts) {
-    shirtDetails = shirts
-      .split(";")
-      .map((shirt) => {
-        const [size, color, amount] = shirt.split("-");
-        totalShirtCount += parseInt(amount) || 0;
-        return `Size: ${size.toUpperCase()} | Color: ${
-          color.charAt(0).toUpperCase() + color.slice(1)
-        } | Amount: ${amount}`;
-      })
-      .join("\n");
     shirtTotal = totalShirtCount * 350;
   }
 
@@ -46,7 +35,6 @@ function DonationSuccessContent() {
   const cardwithboxTotal = cardwithboxCount * 250;
 
   // Calculate total amount
-  const totalAmount = parseFloat(payment_amount) + shirtTotal + cardTotal;
 
   return (
     <div className="flex flex-col min-h-screen">

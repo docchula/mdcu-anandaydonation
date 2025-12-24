@@ -7,7 +7,7 @@ import StatisticalData from "../components/StatisticalData";
 import AdminStatsTable from "../components/AdminStatsTable";
 
 export default function AdminPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);

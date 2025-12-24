@@ -2,9 +2,9 @@
 
 
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext"; // Adjust the path as necessary
 
-type LanguageCode = "th" | "en"; // Add more language codes as needed
 
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage();
@@ -66,10 +66,13 @@ export default function Navbar() {
               </li>
               <li>
               <button onClick={toggleLanguage} className="flex items-center space-x-2">
-                    <img
+                    <Image
                       src={language === "th" ? "/images/EN_icon.png" : "/images/TH_icon.png"}
                       alt={language === "th" ? "English Icon" : "Thai Icon"}
+                      width={20}
+                      height={20}
                       className="w-5 h-5"
+                      unoptimized
                     />
                   <span>{language === "th" ? "English" : "ภาษาไทย"}</span>
               </button>
@@ -119,10 +122,13 @@ export default function Navbar() {
         </div>
         <div className="navbar-end hidden lg:flex">
         <button onClick={toggleLanguage} className="btn flex items-center">
-                    <img
+                    <Image
                       src={language === "th" ? "/images/EN_icon.png" : "/images/TH_icon.png"}
                       alt={language === "th" ? "English Icon" : "Thai Icon"}
+                      width={20}
+                      height={20}
                       className="w-5 h-5"
+                      unoptimized
                     />
                   <span>{language === "th" ? "English" : "ภาษาไทย"}</span>
               </button>

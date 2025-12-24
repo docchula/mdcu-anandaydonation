@@ -2,8 +2,6 @@ import { promises as fs } from "fs";
 import path from "path";
 import { parse } from "csv-parse/sync";
 import type { Province, District, SubDistrict } from "@/types/address";
-import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/db";
 
 export async function GET() {
   try {
