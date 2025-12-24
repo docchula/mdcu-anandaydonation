@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml prisma.config.ts ./
 
 RUN pnpm i --frozen-lockfile
 
@@ -53,6 +53,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/uploads ./uploads
 
 # Copies prisma files for linting
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=base /app/prisma.config.ts ./prisma.config.ts
 
 USER nextjs
 
