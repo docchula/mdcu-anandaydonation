@@ -46,4 +46,4 @@ prisma/file.db
 public/uploads/
 prisma/file.db
 /uploads
-/generated/prisma
+prisma/generated/prisma
