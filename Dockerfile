@@ -23,7 +23,7 @@ RUN mkdir -p /app/uploads
 
 # Generates prisma files for linting
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm exec prisma generate
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store DATABASE_URL="mysql://dummy:dummy@localhost:3306/dummy" pnpm exec prisma generate
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
