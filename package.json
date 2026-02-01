@@ -15,16 +15,15 @@
     "@tanstack/react-table": "^8.21.3",
     "csv-parse": "^5.6.0",
     "mariadb": "^3.4.5",
-    "next": "15.4.10",
+    "next": "^15.4.10",
     "next-auth": "^4.24.13",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "xlsx": "^0.18.5",
-    "dotenv": "^17.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "^20.19.27",
-    "@types/react": "^19.2.7",
+    "@types/node": "^20.19.30",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "daisyui": "^4.12.24",
     "postcss": "^8.5.6",
@@ -32,5 +31,12 @@
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
+  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab",
+  "pnpm": {
+    "overrides": {
+      "lodash@>=4.0.0 <=4.17.22": ">=4.17.23",
+      "next@>=15.0.0-canary.0 <15.6.0-canary.61": ">=15.6.0-canary.61",
+      "hono@<4.11.7": ">=4.11.7"
+    }
+  }
 }
