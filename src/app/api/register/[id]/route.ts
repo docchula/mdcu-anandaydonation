@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 // Updated GET handler
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: number }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await params)?.id) throw new Error("Missing ID parameter.");
@@ -34,7 +34,7 @@ export async function GET(
 // Updated PUT handler
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: number }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await params)?.id) throw new Error("Missing ID parameter.");
@@ -76,7 +76,7 @@ export async function PUT(
 // Updated DELETE handler
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: number }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await params)?.id) throw new Error("Missing ID parameter.");
