@@ -29,12 +29,6 @@ const uploadMiddleware = async (req: NextRequest) => {
   return `/api/files/${uniqueName}`; // ✅ dynamic served path
 };
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: NextRequest) {
   try {
     const filePath = await uploadMiddleware(req);
