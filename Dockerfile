@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies
-COPY package.json pnpm-lock.yaml prisma.config.ts ./
+COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm i --frozen-lockfile
 
@@ -23,11 +23,11 @@ RUN mkdir -p /app/uploads
 
 # Generates prisma files for linting
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store DATABASE_URL="mysql://dummy:dummy@localhost:3306/dummy" pnpm exec prisma generate
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm exec prisma generate
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store DATABASE_URL="mysql://dummy:dummy@localhost:3306/dummy" pnpm build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -53,7 +53,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/uploads ./uploads
 
 # Copies prisma files for linting
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./
 
 USER nextjs
 
