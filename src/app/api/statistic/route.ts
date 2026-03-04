@@ -35,7 +35,7 @@ export async function GET() {
     const totalMoney = totalMoneyData.reduce(
       (sum: number, registration: { payment_amount: string | null }) => {
         const payValue = parseFloat(registration.payment_amount || "0") || 0; // Convert string to number, default to 0 if null
-        return sum + payValue;
+        return parseInt(((sum + payValue) * 100).toFixed(0)) / 100;
       },
       0
     );
@@ -45,7 +45,7 @@ export async function GET() {
     const totalMoneyApproved = totalMoneyApprovedData.reduce(
       (sum: number, registration: { payment_amount: string | null }) => {
         const payValue = parseFloat(registration.payment_amount || "0") || 0; // Convert string to number, default to 0 if null
-        return sum + payValue;
+        return parseInt(((sum + payValue) * 100).toFixed(0)) / 100;
       },
       0
     );
