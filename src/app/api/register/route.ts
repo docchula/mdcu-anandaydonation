@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"; // Import NextRequest
 import prisma from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { config } from "@/utils/auth";
 
 function generateTrackingCode() {
   const characters =
@@ -36,14 +38,14 @@ export async function POST(req: NextRequest) {
       national_id,
       name_on_receipt,
       address_on_receipt,
-      alumni,           // <-- add this
-      alumni_gen,       // <-- add this
+      alumni, // <-- add this
+      alumni_gen, // <-- add this
     } = await req.json(); // Since it's NextRequest, you can directly use `req.json()`
 
     if (!name || !phone || !home || !payment_amount || !payment_proof) {
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -80,7 +82,7 @@ export async function POST(req: NextRequest) {
         national_id: national_id || "",
         name_on_receipt: name_on_receipt || "",
         address_on_receipt: address_on_receipt || "",
-        alumni: alumni === "true" ? "true" : null, 
+        alumni: alumni === "true" ? "true" : null,
         alumni_gen: alumni_gen || null,
       },
     });
@@ -94,20 +96,27 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json(
       { error: "Failed to create new register" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function GET() {
   try {
+    const session = await getServerSession(config);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 500 },
+      );
+    }
     const registers = await prisma.register.findMany();
     return NextResponse.json(registers);
   } catch (error) {
     console.error("Error fetching register data:", error);
     return NextResponse.json(
       { error: "Failed to fetch data" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
