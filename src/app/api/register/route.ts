@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"; // Import NextRequest
 import prisma from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { config } from "@/utils/auth";
 
 function generateTrackingCode() {
   const characters =
@@ -101,6 +103,13 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
+    const session = await getServerSession(config);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 500 },
+      );
+    }
     const registers = await prisma.register.findMany();
     return NextResponse.json(registers);
   } catch (error) {
