@@ -14,30 +14,49 @@ export async function GET() {
       where: { shipment_status: "5" },
     });
 
-
     // Donators without order
     const donatorsWithoutOrderConfirmed = await prisma.register.count({
       where: { shipment_status: "5", payment_status: "Approved" },
     });
 
-    // Donators with shirt order
+    // Donators with pin-postcard order (A)
+    const donatorsAllCardOrder = await prisma.register.count({
+      where: { card: { not: 0 } },
+    });
+
+    // Donators with pin-postcard order (A)
+    const donatorsAllCardOrderConfirmed = await prisma.register.count({
+      where: { card: { not: 0 }, payment_status: "Approved" }
+    });
+
+    // Donators with pin-box order (B)
+    const donatorsAllBoxOrder = await prisma.register.count({
+      where: { cardwithbox: { not: 0 } },
+    });
+
+    // Donators with pin-box order (B)
+    const donatorsAllBoxOrderConfirmed = await prisma.register.count({
+      where: { cardwithbox: { not: 0 }, payment_status: "Approved" }
+    });
+
+    // Donators with shirt order (C)
     const donatorsWithShirtOrder = await prisma.register.count({
       where: { shirts: { not: "" } },
     });
 
-    // Donators with shirt order
+    // Donators with shirt order (C)
     const donatorsWithShirtOrderConfirmed = await prisma.register.count({
       where: { shirts: { not: "" }, payment_status: "Approved" },
     });
 
-    // Donators with commemorable card order
+    // Donators with commemorable pin-postcard or pin-box order (A U B)
     const donatorsWithCardOrder = await prisma.register.count({
       where: {
         OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
       },
     });
 
-    // Donators with commemorable card order
+    // Donators with commemorable pin-postcard or pin-box order (A U B)
     const donatorsWithCardOrderConfirmed = await prisma.register.count({
       where: {
         OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
@@ -45,7 +64,7 @@ export async function GET() {
       },
     });
 
-    // Donators with both shirt and card order
+    // Donators with both shirt and (pin-postcard or pin-box) order ((A U B) ^ C)
     const donatorsWithBothOrders = await prisma.register.count({
       where: {
         OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
@@ -53,7 +72,7 @@ export async function GET() {
       },
     });
 
-    // Donators with both shirt and card order
+    // Donators with both shirt and (pin-postcard or pin-box) order ((A U B) ^ C)
     const donatorsWithBothOrdersConfirmed = await prisma.register.count({
       where: {
         OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
@@ -172,6 +191,12 @@ export async function GET() {
       donatorsWithShirtOrderConfirmed,
       donatorsWithCardOrderConfirmed,
       donatorsWithBothOrdersConfirmed,
+      
+      donatorsAllCardOrder,
+      donatorsAllCardOrderConfirmed,
+      donatorsAllBoxOrder,
+      donatorsAllBoxOrderConfirmed,
+
       totalCardOrders,
       totalCardOrdersApproved,
       totalShirtOrders: shirtCounts,
