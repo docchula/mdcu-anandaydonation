@@ -5,15 +5,29 @@ export async function GET() {
   try {
     // Total donators
     const totalDonators = await prisma.register.count();
+    const totalDonatorsConfirmed = await prisma.register.count({
+      where: {payment_status: "Approved" }
+    });
 
     // Donators without order
     const donatorsWithoutOrder = await prisma.register.count({
       where: { shipment_status: "5" },
     });
 
+
+    // Donators without order
+    const donatorsWithoutOrderConfirmed = await prisma.register.count({
+      where: { shipment_status: "5", payment_status: "Approved" },
+    });
+
     // Donators with shirt order
     const donatorsWithShirtOrder = await prisma.register.count({
       where: { shirts: { not: "" } },
+    });
+
+    // Donators with shirt order
+    const donatorsWithShirtOrderConfirmed = await prisma.register.count({
+      where: { shirts: { not: "" }, payment_status: "Approved" },
     });
 
     // Donators with commemorable card order
@@ -23,11 +37,28 @@ export async function GET() {
       },
     });
 
+    // Donators with commemorable card order
+    const donatorsWithCardOrderConfirmed = await prisma.register.count({
+      where: {
+        OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
+        payment_status: "Approved"
+      },
+    });
+
     // Donators with both shirt and card order
     const donatorsWithBothOrders = await prisma.register.count({
       where: {
         OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
         shirts: { not: "" },
+      },
+    });
+
+    // Donators with both shirt and card order
+    const donatorsWithBothOrdersConfirmed = await prisma.register.count({
+      where: {
+        OR: [{ card: { not: 0 } }, { cardwithbox: { not: 0 } }],
+        shirts: { not: "" },
+        payment_status: "Approved"
       },
     });
 
@@ -128,6 +159,7 @@ export async function GET() {
 
     return NextResponse.json({
       totalDonators,
+      totalDonatorsConfirmed,
       totalMoney,
       totalMoneyApproved,
       totalCardwithboxOrders,
@@ -136,6 +168,10 @@ export async function GET() {
       donatorsWithShirtOrder,
       donatorsWithCardOrder,
       donatorsWithBothOrders,
+      donatorsWithoutOrderConfirmed,
+      donatorsWithShirtOrderConfirmed,
+      donatorsWithCardOrderConfirmed,
+      donatorsWithBothOrdersConfirmed,
       totalCardOrders,
       totalCardOrdersApproved,
       totalShirtOrders: shirtCounts,
